@@ -38,4 +38,10 @@ public class UserData : IUserData
     }
 
     // delete
+    public async Task<int> DeleteUser(UserModel user)
+    {
+        var result = await _context.Users.FirstOrDefaultAsync(u => u.Username == user.Username);
+        _context.Users.Remove(result);
+        return await _context.SaveChangesAsync();
+    }
 }

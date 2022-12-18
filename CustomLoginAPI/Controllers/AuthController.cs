@@ -17,14 +17,20 @@ namespace CustomLoginAPI.Controllers
             _userLogic = userLogic;
         }
         
-        [HttpPost]
+        [HttpPost("register")]
         public async Task<ActionResult<AuthResponseDTOModel>> RegisterUser(UserDTOModel request)
         {
            return await _userLogic.RegisterUser(request);
         }
 
+        [HttpPost("delete")]
+        public async Task<ActionResult<AuthResponseDTOModel>> DeleteUser(UserDTOModel request)
+        {
+            return await _userLogic.DeleteUser(request);
+        }
+
         [HttpPost("login")]
-        public async Task<ActionResult<AuthResponseDTOModel>> Login(UserDTOModel request)
+        public async Task<ActionResult<AuthResponseDTOModel>> LoginUser(UserDTOModel request)
         {
             return await _userLogic.LoginUser(request);
         }

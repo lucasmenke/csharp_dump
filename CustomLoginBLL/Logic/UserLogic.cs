@@ -56,6 +56,41 @@ public class UserLogic : IUserLogic
         };
     }
 
+    public async Task<AuthResponseDTOModel> DeleteUser(UserDTOModel request)
+    {
+        var user = await _userData.GetUser(request);
+        if (user == null)
+        {
+            return new AuthResponseDTOModel
+            {
+                Message = "User not found."
+            };
+        }
+
+        if (!_password.VerifyPasswordHash(request.Password, user.PasswordHash, user.PasswordSalt))
+        {
+            return new AuthResponseDTOModel
+            {
+                Message = "Wrong password."
+            };
+        }
+
+        var result = await _userData.DeleteUser(user);
+        if (result == 0)
+        {
+            return new AuthResponseDTOModel
+            {
+                Message = "Failed to delete user."
+            };
+        }
+
+        return new AuthResponseDTOModel
+        {
+            Success = true,
+            Message = "User successfully deleted."
+        };
+    }
+
     public async Task<AuthResponseDTOModel> LoginUser(UserDTOModel request)
     {
         // check if user is registered

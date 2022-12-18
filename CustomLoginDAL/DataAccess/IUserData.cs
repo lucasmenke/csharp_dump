@@ -8,5 +8,6 @@ namespace CustomLoginDAL.DataAccess
         Task<UserModel> GetUser(UserDTOModel request);
         Task<int> UpdateUser(UserModel user);
         Task<UserModel> GetUserByrefreshToken(string refreshToken);
+        Task<int> DeleteUser(UserModel user);
     }
 }
