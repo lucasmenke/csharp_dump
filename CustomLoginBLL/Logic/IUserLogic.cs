@@ -6,5 +6,6 @@ namespace CustomLoginBLL.Logic
     {
         Task<AuthResponseDTOModel> LoginUser(UserDTOModel request);
         Task<AuthResponseDTOModel> RegisterUser(UserDTOModel request);
+        Task<AuthResponseDTOModel> ChangeUsername(string newUsername);
     }
 }

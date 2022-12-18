@@ -1,5 +1,6 @@
 ﻿using CustomLoginBLL.Logic;
 using CustomLoginDAL.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -26,6 +27,12 @@ namespace CustomLoginAPI.Controllers
         public async Task<ActionResult<AuthResponseDTOModel>> Login(UserDTOModel request)
         {
             return await _userLogic.LoginUser(request);
+        }
+
+        [HttpPost("change-username"), Authorize]
+        public async Task<ActionResult<AuthResponseDTOModel>> ChangeUsername(string newUsername)
+        {
+            return await _userLogic.ChangeUsername(newUsername);
         }
     }
 }

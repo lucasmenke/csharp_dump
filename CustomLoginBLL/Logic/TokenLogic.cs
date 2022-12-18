@@ -76,4 +76,9 @@ public class TokenLogic : ITokenLogic
 
         return user;
     }
+
+    public string GetRefreshToken()
+    {
+        return _httpContext?.HttpContext?.Request.Cookies["refreshToken"];
+    }
 }
