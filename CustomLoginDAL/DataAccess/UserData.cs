@@ -26,6 +26,11 @@ public class UserData : IUserData
         return await _context.Users.FirstOrDefaultAsync(u => u.Username == request.Username);
     }
 
+    public async Task<UserModel> GetUserByrefreshToken(string refreshToken)
+    {
+        return await _context.Users.FirstOrDefaultAsync(u => u.RefreshToken == refreshToken);
+    }
+
     // update
     public async Task<int> UpdateUser(UserModel user)
     {

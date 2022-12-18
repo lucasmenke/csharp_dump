@@ -13,6 +13,9 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+// middleware needed for authentication purpose
+app.UseAuthentication();
+
 app.UseAuthorization();
 
 app.MapControllers();

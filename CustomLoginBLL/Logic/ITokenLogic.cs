@@ -7,5 +7,6 @@ namespace CustomLoginBLL.Logic
         RefreshTokenModel CreateRefreshToken();
         string CreateToken(UserModel user);
         UserModel SetRefreshToken(RefreshTokenModel refreshToken, UserModel user);
+        string GetRefreshToken();
     }
 }

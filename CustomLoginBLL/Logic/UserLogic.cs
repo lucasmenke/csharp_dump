@@ -98,4 +98,48 @@ public class UserLogic : IUserLogic
             Message = "Succesfully logged in user."
         };
     }
+
+    public async Task<AuthResponseDTOModel> ChangeUsername(string newUsername)
+    {
+        // check if user is authorized
+        var refreshToken = _token.GetRefreshToken();
+        if (refreshToken == null)
+        {
+            return new AuthResponseDTOModel
+            {
+                Message = "No Refresh token provided."
+            };
+        }
+        var user = await _userData.GetUserByrefreshToken(refreshToken);
+        if (user == null)
+        {
+            return new AuthResponseDTOModel 
+            { 
+                Message = "Invalid Refresh Token." 
+            };
+        }
+        else if (user.TokenExpires < DateTime.Now)
+        {
+            return new AuthResponseDTOModel 
+            { 
+                Message = "Token already expired." 
+            };
+        }
+
+        // change username
+        user.Username = newUsername;
+        var response = await _userData.UpdateUser(user);
+        if (response == 0)
+        {
+            return new AuthResponseDTOModel 
+            { 
+                Message = "Failed to change the username." 
+            };
+        }
+
+        return new AuthResponseDTOModel 
+        { 
+            Message = "Username succesfully changed." 
+        };
+    }
 }
