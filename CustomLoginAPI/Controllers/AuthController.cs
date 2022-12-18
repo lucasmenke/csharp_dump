@@ -1,7 +1,4 @@
-﻿using CustomLoginBLL.Logic;
-using CustomLoginDAL.Models;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CustomLoginAPI.Controllers

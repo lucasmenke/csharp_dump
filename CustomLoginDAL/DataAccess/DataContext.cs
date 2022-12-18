@@ -1,7 +1,4 @@
-﻿using CustomLoginDAL.Models;
-using Microsoft.EntityFrameworkCore;
-
-namespace CustomLoginDAL.DataAccess;
+﻿namespace CustomLoginDAL.DataAccess;
 
 public class DataContext : DbContext
 {

@@ -1,6 +1,4 @@
-﻿using System.Globalization;
-
-namespace CustomLoginDAL.Models;
+﻿namespace CustomLoginDAL.Models;
 
 public class UserModel
 {

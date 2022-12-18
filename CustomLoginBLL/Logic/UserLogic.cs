@@ -1,7 +1,4 @@
-﻿using CustomLoginDAL.DataAccess;
-using CustomLoginDAL.Models;
-
-namespace CustomLoginBLL.Logic;
+﻿namespace CustomLoginBLL.Logic;
 
 public class UserLogic : IUserLogic
 {

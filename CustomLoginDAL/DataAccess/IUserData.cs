@@ -1,13 +1,10 @@
-﻿using CustomLoginDAL.Models;
+﻿namespace CustomLoginDAL.DataAccess;
 
-namespace CustomLoginDAL.DataAccess
+public interface IUserData
 {
-    public interface IUserData
-    {
-        Task<int> CreateUser(UserModel user);
-        Task<UserModel> GetUser(UserDTOModel request);
-        Task<int> UpdateUser(UserModel user);
-        Task<UserModel> GetUserByrefreshToken(string refreshToken);
-        Task<int> DeleteUser(UserModel user);
-    }
+    Task<int> CreateUser(UserModel user);
+    Task<UserModel> GetUser(UserDTOModel request);
+    Task<int> UpdateUser(UserModel user);
+    Task<UserModel> GetUserByrefreshToken(string refreshToken);
+    Task<int> DeleteUser(UserModel user);
 }

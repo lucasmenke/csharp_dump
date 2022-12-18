@@ -1,8 +1,4 @@
-﻿using CustomLoginDAL.Models;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
-
-namespace CustomLoginDAL.DataAccess;
+﻿namespace CustomLoginDAL.DataAccess;
 
 public class UserData : IUserData
 {

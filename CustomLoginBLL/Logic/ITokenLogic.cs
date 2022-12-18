@@ -1,12 +1,9 @@
-﻿using CustomLoginDAL.Models;
+﻿namespace CustomLoginBLL.Logic;
 
-namespace CustomLoginBLL.Logic
+public interface ITokenLogic
 {
-    public interface ITokenLogic
-    {
-        RefreshTokenModel CreateRefreshToken();
-        string CreateToken(UserModel user);
-        UserModel SetRefreshToken(RefreshTokenModel refreshToken, UserModel user);
-        string GetRefreshToken();
-    }
+    RefreshTokenModel CreateRefreshToken();
+    string CreateToken(UserModel user);
+    UserModel SetRefreshToken(RefreshTokenModel refreshToken, UserModel user);
+    string GetRefreshToken();
 }
