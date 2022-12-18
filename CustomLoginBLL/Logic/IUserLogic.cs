@@ -8,5 +8,6 @@ namespace CustomLoginBLL.Logic
         Task<AuthResponseDTOModel> RegisterUser(UserDTOModel request);
         Task<AuthResponseDTOModel> ChangeUsername(string newUsername);
         Task<AuthResponseDTOModel> RefreshToken();
+        Task<AuthResponseDTOModel> ChangePassword(string newPassword);
     }
 }

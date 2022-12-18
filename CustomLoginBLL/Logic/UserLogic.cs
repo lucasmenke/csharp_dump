@@ -139,7 +139,56 @@ public class UserLogic : IUserLogic
 
         return new AuthResponseDTOModel 
         { 
+            Success = true,
             Message = "Username succesfully changed." 
+        };
+    }
+
+    public async Task<AuthResponseDTOModel> ChangePassword(string newPassword)
+    {
+        // check if user is authorized
+        var refreshToken = _token.GetRefreshToken();
+        if (refreshToken == null)
+        {
+            return new AuthResponseDTOModel
+            {
+                Message = "No Refresh token provided."
+            };
+        }
+        var user = await _userData.GetUserByrefreshToken(refreshToken);
+        if (user == null)
+        {
+            return new AuthResponseDTOModel
+            {
+                Message = "Invalid Refresh Token."
+            };
+        }
+        else if (user.TokenExpires < DateTime.Now)
+        {
+            return new AuthResponseDTOModel
+            {
+                Message = "Token already expired."
+            };
+        }
+
+        // change password
+        _password.CreatePasswordHash(newPassword, out byte[] passwordHash, out byte[] passwordSalt);
+        user.PasswordHash = passwordHash;
+        user.PasswordSalt = passwordSalt;
+
+        var response = await _userData.UpdateUser(user);
+        if (response == 0)
+        {
+            return new AuthResponseDTOModel
+            {
+                Message = "Failed to change the password."
+            };
+        }
+
+        return new AuthResponseDTOModel
+        {
+            Success = true,
+            Message = "Password succesfully changed."
         };
     }
 
