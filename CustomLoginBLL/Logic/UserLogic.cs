@@ -38,7 +38,8 @@ public class UserLogic : IUserLogic
         {
             Username = request.Username,
             PasswordHash = passwordHash,
-            PasswordSalt = passwordSalt
+            PasswordSalt = passwordSalt,
+            Role = "User"
         };
 
         // save user in database

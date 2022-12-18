@@ -14,8 +14,9 @@ public class UserData : IUserData
     private readonly DataContext _context;
     private readonly IConfiguration _config;
 
-    public UserData(DataContext _context, IConfiguration config)
+    public UserData(DataContext context, IConfiguration config)
     {
+        _context = context;
         _config = config;
     }
 
@@ -31,4 +32,8 @@ public class UserData : IUserData
     {
         return await _context.Users.FirstOrDefaultAsync(u => u.Username == request.Username);
     }
+
+    // update
+
+    // delete
 }

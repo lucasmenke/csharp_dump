@@ -1,4 +1,5 @@
-﻿using CustomLoginDAL.DataAccess;
+﻿using CustomLoginBLL.Logic;
+using CustomLoginDAL.DataAccess;
 using Microsoft.EntityFrameworkCore;
 using System.Configuration;
 
@@ -12,5 +13,7 @@ public static class RegisterServices
         builder.Services.AddEndpointsApiExplorer();
         builder.Services.AddSwaggerGen();
         builder.Services.AddDbContext<DataContext>(options => options.UseSqlite(builder.Configuration.GetConnectionString("Sqlite")));
+        builder.Services.AddScoped<IUserLogic, UserLogic>();
+        builder.Services.AddScoped<IUserData, UserData>();
     }
 }
