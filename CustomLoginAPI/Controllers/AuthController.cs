@@ -35,6 +35,12 @@ namespace CustomLoginAPI.Controllers
             return await _userLogic.ChangeUsername(newUsername);
         }
 
+        [HttpPost("change-password"), Authorize]
+        public async Task<ActionResult<AuthResponseDTOModel>> ChangePassword(string newPassword)
+        {
+            return await _userLogic.ChangePassword(newPassword);
+        }
+
         [HttpPost("refresh-token")]
         public async Task<ActionResult<AuthResponseDTOModel>> RefreshToken()
         {
