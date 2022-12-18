@@ -142,4 +142,45 @@ public class UserLogic : IUserLogic
             Message = "Username succesfully changed." 
         };
     }
+
+    public async Task<AuthResponseDTOModel> RefreshToken()
+    {
+        // every request contains the old token when cookies don't get deleted
+        var refreshToken = _token.GetRefreshToken();
+        if (refreshToken == null)
+        {
+            return new AuthResponseDTOModel
+            {
+                Message = "No Refresh token provided."
+            };
+        }
+        var user = await _userData.GetUserByrefreshToken(refreshToken);
+        if (user == null)
+        {
+            return new AuthResponseDTOModel
+            {
+                Message = "Invalid Refresh Token."
+            };
+        }
+        else if (user.TokenExpires < DateTime.Now)
+        {
+            return new AuthResponseDTOModel
+            {
+                Message = "Token already expired."
+            };
+        }
+
+        string token = _token.CreateToken(user);
+        var newRefreshToken = _token.CreateRefreshToken();
+        var updatedUser = _token.SetRefreshToken(newRefreshToken, user);
+
+        return new AuthResponseDTOModel
+        {
+            Success = true,
+            Token = token,
+            RefreshToken = newRefreshToken.Token,
+            TokenExpires = newRefreshToken.Expires,
+            Message = "New Refresh Token created."
+        };
+    }
 }
