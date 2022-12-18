@@ -21,5 +21,11 @@ namespace CustomLoginAPI.Controllers
         {
            return await _userLogic.RegisterUser(request);
         }
+
+        [HttpPost("login")]
+        public async Task<ActionResult<AuthResponseDTOModel>> Login(UserDTOModel request)
+        {
+            return await _userLogic.LoginUser(request);
+        }
     }
 }

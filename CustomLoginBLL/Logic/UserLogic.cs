@@ -1,21 +1,19 @@
 ﻿using CustomLoginDAL.DataAccess;
 using CustomLoginDAL.Models;
-using Microsoft.EntityFrameworkCore.Query.Internal;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CustomLoginBLL.Logic;
 
 public class UserLogic : IUserLogic
 {
     private readonly IUserData _userData;
+    private readonly IPasswordLogic _password;
+    private readonly ITokenLogic _token;
 
-    public UserLogic(IUserData userData)
+    public UserLogic(IUserData userData, IPasswordLogic password, ITokenLogic token)
     {
         _userData = userData;
+        _password = password;
+        _token = token;
     }
 
     public async Task<AuthResponseDTOModel> RegisterUser(UserDTOModel request)
@@ -26,13 +24,12 @@ public class UserLogic : IUserLogic
         {
             return new AuthResponseDTOModel
             {
-                Success = false,
                 Message = "Username already exists."
             };
         }
 
         // methode gets the password as plaintext and return password hash & salt
-        PasswordLogic.CreatePasswordHash(request.Password, out byte[] passwordHash, out byte[] passwordSalt);
+        _password.CreatePasswordHash(request.Password, out byte[] passwordHash, out byte[] passwordSalt);
 
         var user = new UserModel
         {
@@ -48,7 +45,6 @@ public class UserLogic : IUserLogic
         {
             return new AuthResponseDTOModel
             {
-                Success = false,
                 Message = "Failed to save user in database."
             };
         }
@@ -60,4 +56,46 @@ public class UserLogic : IUserLogic
         };
     }
 
+    public async Task<AuthResponseDTOModel> LoginUser(UserDTOModel request)
+    {
+        // check if user is registered
+        var user = await _userData.GetUser(request);
+        if (user == null)
+        {
+            return new AuthResponseDTOModel
+            {
+                Message = "User not found."
+            };
+        }
+
+        if (!_password.VerifyPasswordHash(request.Password, user.PasswordHash, user.PasswordSalt))
+        {
+            return new AuthResponseDTOModel 
+            { 
+                Message = "Wrong password." 
+            };
+        }
+
+        string token = _token.CreateToken(user);
+        var refreshToken = _token.CreateRefreshToken();
+        var updatedUser = _token.SetRefreshToken(refreshToken, user);
+
+        int response = await _userData.UpdateUser(updatedUser);
+        if (response == 0)
+        {
+            return new AuthResponseDTOModel
+            {
+                Message = "Failed to update user."
+            };
+        }
+
+        return new AuthResponseDTOModel
+        {
+            Success = true,
+            Token = token,
+            RefreshToken = refreshToken.Token,
+            TokenExpires = refreshToken.Expires,
+            Message = "Succesfully logged in user."
+        };
+    }
 }

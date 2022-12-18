@@ -1,23 +1,16 @@
 ﻿using CustomLoginDAL.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CustomLoginDAL.DataAccess;
 
 public class UserData : IUserData
 {
     private readonly DataContext _context;
-    private readonly IConfiguration _config;
 
-    public UserData(DataContext context, IConfiguration config)
+    public UserData(DataContext context)
     {
         _context = context;
-        _config = config;
     }
 
     // create
@@ -34,6 +27,10 @@ public class UserData : IUserData
     }
 
     // update
+    public async Task<int> UpdateUser(UserModel user)
+    {
+        return await _context.SaveChangesAsync();
+    }
 
     // delete
 }

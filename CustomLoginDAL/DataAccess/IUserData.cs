@@ -6,5 +6,6 @@ namespace CustomLoginDAL.DataAccess
     {
         Task<int> CreateUser(UserModel user);
         Task<UserModel> GetUser(UserDTOModel request);
+        Task<int> UpdateUser(UserModel user);
     }
 }
