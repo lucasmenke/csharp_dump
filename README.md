@@ -1,8 +1,14 @@
 # API for Authentication & Authorization with JSON Web Tokens (JWT), Refresh Tokens & Roles
 
-In this project I will create a page for user to create an account and save them in a database using hash & salt. Furthermore registerd users are able to log back in. In addition to that I will use JWT & Refresh Tokens. A registerd user can get a role and based on this role the user will be able to call specific API endpoints.
+In this project Icreated an api to create an account and save it in a database using hash & salt. Furthermore registerd users are able to log back in. In addition to that I will use JWT & Refresh Tokens. A registerd user can get a role and based on this role the user will be able to call specific API endpoints.
 
 Finished: 18.12.22
+
+<br>
+
+## Pictures
+
+![](https://i.imgur.com/za8WRme.png)
 
 <br>
 
