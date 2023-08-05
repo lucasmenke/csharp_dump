@@ -2,8 +2,6 @@
 
 In this project Icreated an api to create an account and save it in a database using hash & salt. Furthermore registerd users are able to log back in. In addition to that I will use JWT & Refresh Tokens. A registerd user can get a role and based on this role the user will be able to call specific API endpoints.
 
-Finished: 18.12.22
-
 <br>
 
 ## Pictures
