@@ -1,0 +1,34 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - My ASP.NET Application</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+</head>
+<body>
+    <div class="navbar navbar-custome">
+        <div class="div-left">
+            <img class="logo-nav" src="~/Assets/Logo.png" alt="SignupForm" />
+        </div>
+        <div class="div-middle">
+            @Html.ActionLink("Sign Up New Customer", "SignUp", "Customer")
+        </div>
+        <div class="div-right">
+            @Html.ActionLink("View Customers", "ViewCustomers", "Customer")
+        </div>
+    </div>
+    <div class="container body-content">
+        @RenderBody()
+        <hr />
+        <footer>
+            <p>&copy; @DateTime.Now.Year - Signup Form</p>
+        </footer>
+    </div>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+</body>
+</html>

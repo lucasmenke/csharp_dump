@@ -1,0 +1,232 @@
+﻿@model MVCApp.Models.Customer
+
+@{
+    ViewBag.Title = "Customer Signup Form";
+}
+
+@using (Html.BeginForm())
+{
+    // increase security of the form & protects bypassing it
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <h4>Customer Signup Form</h4>
+        <hr />
+
+        @{
+            List<SelectListItem> listItemsSalutation = new List<SelectListItem>();
+            listItemsSalutation.Add(new SelectListItem
+            {
+                Text = "Mr",
+                Value = "Mr",
+            });
+            listItemsSalutation.Add(new SelectListItem
+            {
+                Text = "Ms",
+                Value = "Ms",
+            });
+            listItemsSalutation.Add(new SelectListItem
+            {
+                Text = "Mrs",
+                Value = "Mrs",
+            });
+            listItemsSalutation.Add(new SelectListItem
+            {
+                Text = "Mx",
+                Value = "Mx",
+            });
+
+            List<SelectListItem> listItemsTitle = new List<SelectListItem>();
+            listItemsTitle.Add(new SelectListItem
+            {
+                Text = "Dr PhD",
+                Value = "Dr PhD",
+            });
+            listItemsTitle.Add(new SelectListItem
+            {
+                Text = "Dr MD",
+                Value = "Dr MD",
+            });
+            listItemsTitle.Add(new SelectListItem
+            {
+                Text = "Dr",
+                Value = "Dr",
+            });
+
+            List<SelectListItem> listItemsCountry = new List<SelectListItem>();
+            foreach (var country in ViewBag.CountryList)
+            {
+                listItemsCountry.Add(new SelectListItem
+                {
+                    Text = country,
+                    Value = country,
+                });
+            }
+        }
+
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group col-md-10">
+            @Html.LabelFor(model => model.Salutation, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownListFor(model => model.Salutation, listItemsSalutation, "--select--")
+                @Html.ValidationMessageFor(model => model.Salutation, "", new { @class = "text-danger display-block" })
+            </div>
+        </div>
+
+        <div class="form-group col-md-10">
+            @Html.LabelFor(model => model.Title, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownListFor(model => model.Title, listItemsTitle, "--select--")
+                @Html.ValidationMessageFor(model => model.Title, "", new { @class = "text-danger display-block" })
+            </div>
+        </div>
+
+        <div class="form-group col-md-10">
+            @Html.LabelFor(model => model.Surname, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Surname, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Surname, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group col-md-10">
+            @Html.LabelFor(model => model.Forname, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Forname, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Forname, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group col-md-10">
+            @Html.LabelFor(model => model.Street, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Street, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Street, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group col-md-10">
+            @Html.LabelFor(model => model.Zip, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Zip, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Zip, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group col-md-10">
+            @Html.LabelFor(model => model.Region, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Region, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Region, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group col-md-10">
+            @Html.LabelFor(model => model.Country, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownListFor(model => model.Country, listItemsCountry, "--select--")
+                @Html.ValidationMessageFor(model => model.Country, "", new { @class = "text-danger display-block" })
+            </div>
+        </div>
+
+        <div class="form-group col-md-10">
+            @Html.LabelFor(model => model.Mail, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Mail, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Mail, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group col-md-10">
+            @Html.LabelFor(model => model.Phone, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Phone, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Phone, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group col-md-10">
+            @Html.LabelFor(model => model.Smartphone, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Smartphone, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Smartphone, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group col-md-10">
+            @Html.LabelFor(model => model.Birthday, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Birthday, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Birthday, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group col-md-10">
+            @Html.EditorFor(model => model.CheckBoxTermsAndConditions)
+            <label for="checkbox1">Accept our <a href="#" style="color: dodgerblue" onclick="openTermsAndConditions()">Terms and Conditions</a></label>
+            @Html.ValidationMessageFor(model => model.CheckBoxTermsAndConditions, "", new { @class = "text-danger" })
+        </div>
+
+        <div class="signature-pad-div">
+            @Html.LabelFor(model => model.SignatureBase64String, new { htmlAttributes = new { @class = "form-control" } })
+            <img src="~/assets/icons8-eraser-30.png" alt="Clear" onclick="clearSignatureBox()" align="right" />
+            <div id="signature-pad" class="signature-pad">
+                <canvas width="690" height="200" id="signaturePadData"></canvas>
+            </div>
+        </div>
+
+        <div class="form-group col-md-10">
+            <div class="col-md-10">
+                @Html.HiddenFor(model => model.SignatureBase64String, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.SignatureBase64String, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Create" class="btn btn-default" id="submit-btn" />
+            </div>
+        </div>
+    </div>
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/signature_pad")
+}
+
+<script type="text/javascript">
+    /*create signature pad*/
+    var signaturePad;
+    const canvas = document.querySelector("canvas");
+    function setupSignatureBox() {
+        if ($(window).width() <= canvas.width) {
+            canvas.width = window.innerWidth - 40;
+        }
+        signaturePad = new SignaturePad(canvas);
+    }
+
+    /*clear signaturePad*/
+    function clearSignatureBox() {
+        signaturePad.clear();
+    }
+
+    /*get data uri from signature pad*/
+    document.getElementById("submit-btn").onclick = function () {
+        var dataURI = document.getElementById("signaturePadData").toDataURL();
+        var input = document.getElementById("SignatureBase64String");
+        input.value = dataURI;
+        console.log(dataURI);
+    };
+
+    /*Popup Terms and Conditions*/
+    function openTermsAndConditions() {
+        var alertText = "Terms and Conditionsn\nLorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.";
+        alert(alertText);
+    }
+
+    /*initial load when webpage loads*/
+    document.addEventListener("DOMContentLoaded", setupSignatureBox);
+</script>
+

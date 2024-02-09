@@ -1,0 +1,131 @@
+﻿@page "/"
+@inject ICategoryData categoryData
+@inject IStatusData statusData
+@inject ISuggestionData suggestionData
+@inject IUserData userData
+@inject AuthenticationStateProvider authProvider
+@inject NavigationManager navManager
+@inject ProtectedSessionStorage sessionStorage
+
+<h1 class="page-heading text-uppercase mb-4">Suggestions</h1>
+<div class="suggestion-container">
+    <button @onclick="LoadCreatePage" class="suggest-btn btn btn-outline-light btn-lg text-uppercase">Suggest</button>
+</div>
+
+<div class="row">
+    <div class="suggestions-count col-md-4 text-light mt-2">@suggestions?.Count Suggestions</div>
+    <div class="cal-md-4 col-xl-5 btn-group">
+        <button class="btn btn-order @SortedByNewClass(true)" @onclick="(() => OrderByNew(true))">New</button>
+        <button class="btn btn-order @SortedByNewClass(false)" @onclick="(() => OrderByNew(false))">Popular</button>
+    </div>
+    <div class="col-md-4 col-xl-3 search-box">
+        <input class="form-control rounded-control" type="text" placeholder="Search" aria-label="Search box" @oninput="((txt) => OnSearchInput((string)txt.Value))"/>
+    </div>
+    <div class="col-12 d-block d-md-none">
+        @if (categories != null && showCategories)
+        {
+            <div class="categories">
+                <span class="text-uppercase fw-bold">Category</span>
+                <div class="@GetSelectedCategory()" @onclick="(() => OnCategoryClick())">All</div>
+                @foreach (var c in categories)
+                {
+                    <div class="@GetSelectedCategory(c.CategoryName)" @onclick="(() => OnCategoryClick(c.CategoryName))">@c.CategoryName</div>
+                }
+            </div>
+        }
+        else
+        {
+            <div class="categories" @onclick="(() => showCategories = true)">
+                <span class="selected-category">@selectedCategory</span>
+            </div>
+        }
+
+        @if (statuses != null && showStatuses)
+        {
+            <div class="statuses">
+                <span class="text-uppercase fw-bold">Statuses</span>
+                <div class="@GetSelectedStatus()" @onclick="(() => OnStatusClick())">All</div>
+                @foreach (var s in statuses)
+                {
+                    <div class="@GetSelectedStatus(s.StatusName)" @onclick="(() => OnStatusClick(s.StatusName))">@s.StatusName</div>
+                }
+            </div>
+        }
+        else
+        {
+            <div class="statuses" @onclick="(() => showStatuses = true)">
+                <span class="selected-status">@selectedStatus</span>
+            </div>
+        }
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-8 col-xl-9">
+        @if (suggestions != null)
+        {
+            // allows infinite scrolling list & only renders elements on the current screen + OverscanCount
+            <Virtualize Items="@suggestions" Context="s" OverscanCount="10">
+                <div class="suggestion-entry">
+                    <div class="@GetVoteClass(s)" @onclick="(() => VoteUp(s))">
+                        <div class="text-uppercase">@GetUpvoteTopText(s)</div>
+                        <span class="oi oi-caret-top entry-upvote"></span>
+                        <div class="text-uppercase">@GetUpvoteBottomText(s)</div>
+                    </div>
+                    <div class="suggestion-entry-text">
+                        <div class="suggestion-entry-text-title" @onclick="(() => OpenDetails(s))">
+                            @s.Suggestion
+                        </div>
+                        @if (archivingSuggestion == null || archivingSuggestion.Id != s.Id)
+                        {
+                            <div class="suggestion-entry-bottom">
+                                <div class="suggestion-entry-text-category" @onclick="(() => OpenDetails(s))">
+                                    @s.Category?.CategoryName
+                                </div>
+                                <AuthorizeView Policy="Admin">
+                                    <button class="btn suggestion-entry-text-category btn-archive" @onclick="(() => archivingSuggestion = s)">archive</button>
+                                </AuthorizeView>
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="suggestion-entry-bottom">
+                                <button class="btn btn-archive btn-archive-confirm" @onclick="ArchiveSuggestion">confirm</button>
+                                <button class="btn btn-archive btn-archive-reject" @onclick="(() => archivingSuggestion = null)">cancel</button>
+                            </div>
+                        }
+                    </div>
+                    <div class="suggestion-entry-status @GetSuggestionStatusClass(s)">
+                        <div class="suggestion-entry-status-text">
+                            @s.SuggestionStatus?.StatusName
+                        </div>
+                    </div>
+                </div>
+            </Virtualize>
+        }
+    </div>
+    <div class="col-md-4 col-xl-3 d-none d-md-block ">
+        @if (categories != null)
+        {
+            <div class="categories">
+                <span class="text-uppercase fw-bold">Category</span>
+                <div class="@GetSelectedCategory()" @onclick="(() => OnCategoryClick())">All</div>
+                @foreach (var c in categories)
+                {
+                    <div class="@GetSelectedCategory(c.CategoryName)" @onclick="(() => OnCategoryClick(c.CategoryName))">@c.CategoryName</div>
+                }
+            </div>
+        }
+        @if (statuses != null)
+        {
+            <div class="statuses">
+                <span class="text-uppercase fw-bold">Status</span>
+                <div class="@GetSelectedStatus()" @onclick="(() => OnStatusClick())">All</div>
+                @foreach (var s in statuses)
+                {
+                    <div class="@GetSelectedStatus(s.StatusName)" @onclick="(() => OnStatusClick(s.StatusName))">@s.StatusName</div>
+                }
+            </div>
+        }
+    </div>
+</div>
